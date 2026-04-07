@@ -33,4 +33,5 @@ use catalog sql_datawarehouse;
 create schema bronze;
 %sql
 create schema silver;
+%sql
 create schema gold;
