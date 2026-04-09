@@ -1,0 +1,101 @@
+/*
+===================================================================
+Scripts Purpose:
+   This Scripts is used to load data into the broze schema from external csv files.
+   It Peroforms the following actions:
+    -Truncates the bronze tables before loading data.
+    -Uses the COPY INTO command to load data from external csv files to bronze tables.
+=======================================================================
+*\
+
+
+
+%md
+### Start Time of the Loading
+CREATE OR REPLACE TEMP VIEW notebook_start_time AS
+SELECT current_timestamp() AS start_time;
+
+use catalog sql_datawarehouse;
+%md
+### Bulk inserting into bronze.crm_cust_info 
+-- Loading Bronze Layer
+truncate table sql_datawarehouse.bronze.crm_cust_info;
+copy into sql_datawarehouse.bronze.crm_cust_info from '/Volumes/de_dev/default/datasets/datasets/source_crm/cust_info.csv'
+fileformat=csv
+format_options(
+  'header' = 'true',
+  'inferSchema' = 'true'
+);
+%md
+### Testing out the data insertion check
+select * from sql_datawarehouse.bronze.crm_cust_info;
+%md
+### Bulk inserting into bronze.crm_prd_info
+truncate table sql_datawarehouse.bronze.crm_prd_info;
+copy into sql_datawarehouse.bronze.crm_prd_info from '/Volumes/de_dev/default/datasets/datasets/source_crm/prd_info.csv'
+fileformat=csv
+format_options(
+  'header' = 'true',
+  'inferSchema' = 'true'
+);
+%md
+### Testing out the inserted data
+select * from sql_datawarehouse.bronze.crm_prd_info;
+%md
+### Bulk inserting into bronze.crm_sales_details
+truncate table sql_datawarehouse.bronze.crm_sales_details;
+copy into sql_datawarehouse.bronze.crm_sales_details from '/Volumes/de_dev/default/datasets/datasets/source_crm/sales_details.csv'
+fileformat=csv
+format_options(
+  'header' = 'true',
+  'inferSchema' = 'true'
+);
+%md
+### Testing out the schema after Insertion
+select * from sql_datawarehouse.bronze.crm_sales_details;
+%md
+### Bulk inserting into bronze.erp_cust_az12;
+truncate table sql_datawarehouse.bronze.erp_cust_az12;
+copy into sql_datawarehouse.bronze.erp_cust_az12 from '/Volumes/de_dev/default/datasets/datasets/source_erp/CUST_AZ12.csv'
+fileformat=csv
+format_options(
+  'header' = 'true',
+  'inferSchema' = 'true'
+);
+%md
+### Testing out the Inserted data
+SELECT * FROM sql_datawarehouse.bronze.erp_cust_az12;
+%md
+### Bulk Inserting into erp_loc_a101 table;
+
+truncate table sql_datawarehouse.bronze.erp_loc_a101;
+copy into sql_datawarehouse.bronze.erp_loc_a101 from '/Volumes/de_dev/default/datasets/datasets/source_erp/LOC_A101.csv'
+fileformat=csv
+format_options(
+  'header' = 'true',
+  'inferSchema' = 'true'
+);
+%md
+### Testing the inserting data in the table
+select * from sql_datawarehouse.bronze.erp_loc_a101;
+%md
+### Bulk Inserting into table PX_CAT_G1V2
+truncate table sql_datawarehouse.bronze.erp_px_cat_g1v2;
+copy into sql_datawarehouse.bronze.erp_px_cat_g1v2 from '/Volumes/de_dev/default/datasets/datasets/source_erp/PX_CAT_G1V2.csv'
+fileformat=csv
+format_options(
+  'header' = 'true',
+  'inferSchema' = 'true'
+);
+%md
+### Testing out the inserted data
+select * from sql_datawarehouse.bronze.erp_px_cat_g1v2;
+%md
+### Print End time of the bronze layer loading
+SELECT current_timestamp() AS execution_start_time;
+
+SELECT
+  notebook_start_time.start_time,
+  current_timestamp() AS end_time,
+  CAST(current_timestamp() AS LONG) - CAST(notebook_start_time.start_time AS LONG) AS execution_seconds
+FROM notebook_start_time;
