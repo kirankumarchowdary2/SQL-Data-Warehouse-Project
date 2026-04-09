@@ -1,3 +1,13 @@
+===============================
+DDL Script:Create Bronze Tables
+===============================
+Script Purpose:
+This scripts creates Tables in the Bronze Schema ,dropping exiting table 
+if they alredy exists.
+Run this script to re-define the DDL Strucure of 'Bronze' Tables
+
+========================================================
+
 %md
 ### Use the defined catalog sql_datawarehouse
 use catalog sql_datawarehouse;
