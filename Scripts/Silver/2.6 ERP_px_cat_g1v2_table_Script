@@ -1,0 +1,50 @@
+
+
+
+
+%md
+### Now we are with the last table product categories table we need to transform the table and load into the silver table
+%md
+### Let us start analyzing the table
+use catalog sql_datawarehouse;
+select * from sql_datawarehouse.bronze.erp_px_cat_g1v2;
+%md
+### During the table modeling we saw a relationship between product info in CRM source table
+select * from sql_datawarehouse.silver.crm_prd_info;
+%md
+### Now we can see that cat_id in product info table relates with id in px_cat_g1v2 table
+%md
+### So we have the good data in ID column of px_cat table so lets check for next columns
+select cat from sql_datawarehouse.bronze.erp_px_cat_g1v2 where trim(cat)!=cat;
+%md
+### we can see the cat column have no unwanted spaces lets check the same for the next column subcat
+select cat from sql_datawarehouse.bronze.erp_px_cat_g1v2 where trim(subcat)!=subcat;
+%md
+### Found no unwanted spaces in the px_cat table let's check for the maintainence columns
+select cat from sql_datawarehouse.bronze.erp_px_cat_g1v2 where trim(MAINTENANCE)!=MAINTENANCE;
+%md
+### We have no issues in all the columns let start with data standardization and consistency
+select distinct cat from sql_datawarehouse.bronze.erp_px_cat_g1v2;
+%md
+Do it the same for all the columns
+select distinct subcat from sql_datawarehouse.bronze.erp_px_cat_g1v2;
+%md
+### Let's check in the maintanance
+select distinct MAINTENANCE from sql_datawarehouse.bronze.erp_px_cat_g1v2;
+%md
+### Before loading data into silver table we need to truncate the data to avoid duplicate data
+truncate table sql_datawarehouse.silver.erp_px_cat_g1v2;
+%md
+### Even if the table has no issues we need to store in the silver table
+insert into sql_datawarehouse.silver.erp_px_cat_g1v2(id,cat,subcat,MAINTENANCE,dwh_create_date)
+select
+id,
+cat,
+subcat,
+maintenance,
+getdate() as dwh_create_date
+from
+sql_datawarehouse.bronze.erp_px_cat_g1v2;
+%md
+### Let us check the loaded data in silver table
+select * from sql_datawarehouse.silver.erp_px_cat_g1v2;
