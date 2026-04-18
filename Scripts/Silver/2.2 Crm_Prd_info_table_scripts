@@ -1,5 +1,13 @@
 
+/*
+==========================================
+This Script is to transform the bronze crm_prd_info table data and load into the silver schema crm_prd_info table
+==========================================
+This truncates the existing data if exists in silver schema data
+and loads the newly data into the silver tablesof crm_prd_info
+===========================================
 
+*/
 
 
 
