@@ -1,0 +1,29 @@
+/*
+======================================================================
+The purpose of the script is to analyze the source data
+and then create the data model diagram for the different layer of data
+=======================================================================
+*/
+
+%md
+### Analyzing each table data
+
+%md
+### CRM Customer Information Table
+use catalog sql_datawarehouse;
+select * from sql_datawarehouse.bronze.crm_cust_info limit 100;
+%md
+### CRM Product Information
+select * from sql_datawarehouse.bronze.crm_prd_info limit 100;
+%md
+### CRM Sales Information Transactional Details
+select * from sql_datawarehouse.bronze.crm_sales_details limit 100;
+%md
+### ERP Customer Information
+select * from sql_datawarehouse.bronze.erp_cust_az12 limit 100;
+%md
+### ERP location Details of Customer
+select * from sql_datawarehouse.bronze.erp_loc_a101 limit 100;
+%md
+### ERP Product Categories
+select * from sql_datawarehouse.bronze.erp_px_cat_g1v2 limit 100;
