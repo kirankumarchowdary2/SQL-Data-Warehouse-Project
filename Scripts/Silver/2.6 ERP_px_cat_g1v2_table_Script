@@ -1,4 +1,12 @@
+/*
+==========================================
+This Script is to transform the bronze ERP_px_cat_g1v2 table data and load into the silver schema ERP_px_cat_g1v2 table
+==========================================
+This truncates the existing data if exists in silver schema data
+and loads the newly data into the silver tables of ERP_px_cat_g1v2
+===========================================
 
+*/
 
 
 
